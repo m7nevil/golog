@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-var file *os.File
+var tw *timewriter.TimeWriter
 var fileLogger *log.Logger
 var consoleLogger *log.Logger
 
@@ -23,7 +23,7 @@ func init() {
 	//	log.Panic(err)
 	//	return
 	//}
-	tw := &timewriter.TimeWriter{
+	tw = &timewriter.TimeWriter{
 		Dir:        "./log",
 		Compress:   true,
 		ReserveDay: 30,
@@ -53,5 +53,5 @@ func Printf(format string, v ...interface{}) {
 }
 
 func CloseFile() {
-	file.Close()
+	tw.Close()
 }
