@@ -1,6 +1,7 @@
 package golog
 
 import (
+	"github.com/longbozhan/timewriter"
 	"log"
 	"os"
 )
@@ -10,20 +11,25 @@ var fileLogger *log.Logger
 var consoleLogger *log.Logger
 
 func init() {
-	file, err := os.OpenFile("runtime.log", os.O_APPEND, os.ModeAppend)
-	if err != nil {
-		if os.IsExist(err) {
-			log.Panic(err)
-			return
-		}
-		file, err = os.Create("runtime.log")
-	}
-	if err != nil {
-		log.Panic(err)
-		return
+	//file, err := os.OpenFile("runtime.log", os.O_APPEND, os.ModeAppend)
+	//if err != nil {
+	//	if os.IsExist(err) {
+	//		log.Panic(err)
+	//		return
+	//	}
+	//	file, err = os.Create("runtime.log")
+	//}
+	//if err != nil {
+	//	log.Panic(err)
+	//	return
+	//}
+	tw := &timewriter.TimeWriter{
+		Dir:        "./log",
+		Compress:   true,
+		ReserveDay: 30,
 	}
 
-	fileLogger = log.New(file, "", log.Ldate|log.Ltime|log.Lmicroseconds)
+	fileLogger = log.New(tw, "", log.Ldate|log.Ltime|log.Lmicroseconds)
 	consoleLogger = log.New(os.Stdout, "", log.Ldate|log.Ltime|log.Lmicroseconds)
 }
 
